@@ -11,6 +11,11 @@ import ImgTodoItemDeleteButton from "./todo-item-delete-button.png";
 import ImgTodoItemEditButton from "./todo-item-edit-button.png";
 import ImgTodoSortButton from "./todo-sort-button.png";
 import ImgTablerCheck from "./tabler_check.png";
+import ImgSortOld from "./sort-old.png";
+import ImgSortNew from "./sort-new.png";
+import ImgSortAZ from "./sort-az.png";
+import ImgSortZA from "./sort-za.png";
+import ImgSortNotYet from "./sort-not-yet.png";
 
 export {
   ImgModalAddCloseButton,
@@ -26,4 +31,9 @@ export {
   ImgTodoItemEditButton,
   ImgTodoSortButton,
   ImgTablerCheck,
+  ImgSortOld,
+  ImgSortNew,
+  ImgSortAZ,
+  ImgSortZA,
+  ImgSortNotYet,
 };

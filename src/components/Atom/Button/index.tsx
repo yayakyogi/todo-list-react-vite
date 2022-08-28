@@ -1,14 +1,15 @@
 import React, { ReactNode } from "react";
-import { Link, To } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 interface ButtonProps {
   children: ReactNode;
   dataCy?: string;
-  onClick?(): Function | void;
+  onClick?(): void;
   isWihoutStyle?: boolean;
   isRoute?: boolean;
   route?: any;
   className?: string;
+  color?: "bg-lightBlue" | "bg-red" | "bg-gray";
 }
 
 export default function Button(props: ButtonProps) {
@@ -20,10 +21,12 @@ export default function Button(props: ButtonProps) {
     className,
     isWihoutStyle = false,
     isRoute = false,
+    color = "bg-lightBlue",
   } = props;
 
   const style = [
-    "bg-lightBlue rounded-full px-7 py-3.5 text-white flex justify-center items-center flex",
+    color,
+    "rounded-full px-7 py-3.5 text-white flex justify-center items-center flex",
     className,
   ];
 

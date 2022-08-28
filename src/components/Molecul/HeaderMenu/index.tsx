@@ -1,29 +1,70 @@
-import React, { ChangeEvent, ChangeEventHandler, useState } from "react";
+import axios from "axios";
+import React, { ChangeEvent, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   ImgTablerPlus,
   ImgTodoBackButton,
   ImgTodoItemEditButton,
   ImgTodoSortButton,
 } from "../../../assets/images";
+import { Api } from "../../../utils/api";
 import { Button } from "../../Atom";
+import { SortMenu } from "../../Organism";
 
 interface HeaderMenuProps {
   title: string;
-  onAddButton(): Function | void;
+  onAddButton(): void;
   isPageDetail?: boolean;
   dataCy: string;
+  shortByOld?(): void;
+  shortByNew?(): void;
+  shortByAZ?(): void;
+  shortByZA?(): void;
+  shortByNotYet?(): void;
 }
 
 export default function HeaderMenu(props: HeaderMenuProps) {
-  const { title, onAddButton, dataCy, isPageDetail = false } = props;
+  const {
+    title,
+    onAddButton,
+    dataCy,
+    isPageDetail = false,
+    shortByOld,
+    shortByNew,
+    shortByAZ,
+    shortByZA,
+    shortByNotYet,
+  } = props;
 
   const [isEditTitle, setIsEditTitle] = useState<boolean>(false);
   const [stateTitle, setStateTitle] = useState<string>(title);
+  const [showShortMenu, setShowShortMenu] = useState<boolean>(false);
 
-  const onEditTitle = () => setIsEditTitle(!isEditTitle);
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  const onEditTitle = async () => {
+    setIsEditTitle(!isEditTitle);
+    if (isEditTitle) {
+      const res = await axios.patch(`${Api.host}/activity-groups/${id}`, {
+        title: stateTitle,
+      });
+      if (res.status === 200) {
+        navigate(`/detail/${id}`);
+      }
+    }
+  };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setStateTitle(e.target.value);
+  };
+
+  const onShort = () => {
+    setShowShortMenu(!showShortMenu);
+  };
+
+  const onBack = () => {
+    navigate("/");
   };
 
   return (
@@ -32,7 +73,12 @@ export default function HeaderMenu(props: HeaderMenuProps) {
       <div className="flex items-center justify-start">
         {/* button back */}
         {isPageDetail && (
-          <Button isRoute route="/" className="mr-5" dataCy="todo-back-button">
+          <Button
+            isWihoutStyle
+            className="mr-5"
+            dataCy="todo-back-button"
+            onClick={onBack}
+          >
             <img src={ImgTodoBackButton} width={32} height={32} />
           </Button>
         )}
@@ -73,13 +119,20 @@ export default function HeaderMenu(props: HeaderMenuProps) {
       {/* menu sebelah kanan */}
       <div className="flex items-center">
         {isPageDetail && (
-          <Button
-            isWihoutStyle
-            onClick={() => console.log("OKE")}
-            className="mr-3"
-          >
-            <img src={ImgTodoSortButton} width={54} height={54} />
-          </Button>
+          <div className="relative">
+            <Button isWihoutStyle onClick={onShort} className="mr-3">
+              <img src={ImgTodoSortButton} width={54} height={54} />
+            </Button>
+            {showShortMenu && (
+              <SortMenu
+                onShortByOld={shortByOld}
+                onShortByNew={shortByNew}
+                onShortByAZ={shortByAZ}
+                onShortByZA={shortByZA}
+                onShortByNotYet={shortByNotYet}
+              />
+            )}
+          </div>
         )}
         <Button onClick={onAddButton} dataCy="activity-add-button">
           <>

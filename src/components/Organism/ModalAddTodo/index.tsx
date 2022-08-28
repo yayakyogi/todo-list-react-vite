@@ -1,16 +1,24 @@
-import React, { ChangeEvent, ChangeEventHandler, useState } from "react";
+import React, { ChangeEventHandler, useState } from "react";
 import { ImgModalAddCloseButton } from "../../../assets/images";
 import { Button, InputSelect, InputText, Priority } from "../../Atom";
+import ModalTemplate from "../../Template/ModalTemplate";
 
-export default function ModalAddTodo() {
+interface ModalAddTodoProps {
+  onClose(): void;
+  onSubmit(): void;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+  activityGroupId: number;
+}
+
+export default function ModalAddTodo(props: ModalAddTodoProps) {
+  // props
+  const { onClose, onSubmit, onChange } = props;
+
+  // state
   const [isFormSelect, setIsFormSelect] = useState<boolean>(false);
   const [item, setItem] = useState<string>();
   const [priority, setPriority] = useState<string>("Pilih priority");
-  // function untuk menghandle perubahan pada textinput
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
-    setItem(e.target.value);
-  };
+
   // function untuk menghandle form select ketika diklik
   const onFormSelectClicked = () => {
     setIsFormSelect(!isFormSelect);
@@ -20,16 +28,9 @@ export default function ModalAddTodo() {
     setPriority(priority);
     setIsFormSelect(false);
   };
-  // funtion untuk menghandle ketika form disubmit
-  const onSubmit = () => {
-    console.log("Item : ", item);
-    console.log("priority : ", priority);
-  };
+
   return (
-    <div
-      data-cy="modal-add"
-      className="absolute top-0 left-0 w-screen h-screen bg-black bg-opacity-50 flex justify-center items-center"
-    >
+    <ModalTemplate dataCy="modal-add2">
       <div className="w-[830px] bg-white rounded-xl">
         {/* header */}
         <div className="flex justify-between items-center py-7 px-10 border-b border-b-slate-300">
@@ -42,7 +43,7 @@ export default function ModalAddTodo() {
           <Button
             dataCy="modal-add-close-button"
             isWihoutStyle
-            onClick={() => console.log("close modal")}
+            onClick={onClose}
           >
             <img src={ImgModalAddCloseButton} width={24} height={24} />
           </Button>
@@ -62,15 +63,15 @@ export default function ModalAddTodo() {
                 <Priority
                   dataCy="modal-add-priority-very-high"
                   index={0}
-                  onClick={() => onSelectPriority("Very High")}
-                  priority="Very Hight"
+                  onClick={() => onSelectPriority("very-high")}
+                  priority="Very High"
                   color="bg-red"
                   isSelected={priority == "Very High"}
                 />
                 <Priority
                   dataCy="modal-add-priority-high"
                   index={1}
-                  onClick={() => onSelectPriority("High")}
+                  onClick={() => onSelectPriority("high")}
                   priority="High"
                   color="bg-yellow"
                   isSelected={priority == "High"}
@@ -78,7 +79,7 @@ export default function ModalAddTodo() {
                 <Priority
                   dataCy="modal-add-priority-medium"
                   index={2}
-                  onClick={() => onSelectPriority("Medium")}
+                  onClick={() => onSelectPriority("medium")}
                   priority="Medium"
                   color="bg-green"
                   isSelected={priority == "Medium"}
@@ -86,7 +87,7 @@ export default function ModalAddTodo() {
                 <Priority
                   dataCy="modal-add-priority-low"
                   index={3}
-                  onClick={() => onSelectPriority("Low")}
+                  onClick={() => onSelectPriority("low")}
                   priority="Low"
                   color="bg-darkBlue"
                   isSelected={priority == "Low"}
@@ -94,7 +95,7 @@ export default function ModalAddTodo() {
                 <Priority
                   dataCy="modal-add-priority-very-low"
                   index={4}
-                  onClick={() => onSelectPriority("Very Low")}
+                  onClick={() => onSelectPriority("very-low")}
                   priority="Very Low"
                   color="bg-purple"
                   isSelected={priority == "Very Low"}
@@ -110,6 +111,6 @@ export default function ModalAddTodo() {
           </Button>
         </div>
       </div>
-    </div>
+    </ModalTemplate>
   );
 }

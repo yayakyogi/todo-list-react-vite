@@ -1,5 +1,6 @@
-import ListActivity from "./ListActivity";
-import ListTodo from "./ListTodo";
-import ModalAddTodo from "./ModalAddTodo/iindex";
+import ModalAddTodo from "./ModalAddTodo";
+import ModalDelete from "./ModalDelete";
+import SortMenu from "./SortMenu";
+import ModalEditTodo from "./ModalEditTodo";
 
-export { ListActivity, ListTodo, ModalAddTodo };
+export { ModalAddTodo, ModalDelete, SortMenu, ModalEditTodo };

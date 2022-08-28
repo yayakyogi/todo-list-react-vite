@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEventHandler } from "react";
 import {
   ImgTodoItemDeleteButton,
   ImgTodoItemEditButton,
@@ -7,26 +7,39 @@ import { Button } from "../../Atom";
 
 interface TodoItemProps {
   todo: string;
-  priority: "Very High" | "High" | "Medium" | "Low" | "Very Low";
+  priority: string;
+  isActive: boolean;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+  onEditTodo(): void;
+  onDeleteTodo(): void;
+  isChecked: boolean;
 }
 
 export default function TodoItem(props: TodoItemProps) {
-  const { todo, priority } = props;
+  const {
+    todo,
+    priority,
+    isActive,
+    onChange,
+    isChecked,
+    onEditTodo,
+    onDeleteTodo,
+  } = props;
   let color;
   switch (priority) {
-    case "Very High":
+    case "very-high":
       color = "bg-red";
       break;
-    case "High":
+    case "high":
       color = "bg-yellow";
       break;
-    case "Medium":
+    case "medium":
       color = "bg-green";
       break;
-    case "Low":
+    case "low":
       color = "bg-darkBlue";
       break;
-    case "Very Low":
+    case "very-low":
       color = "bg-purple";
       break;
     default:
@@ -39,15 +52,25 @@ export default function TodoItem(props: TodoItemProps) {
       className="p-7 bg-white rounded-lg flex justify-between items-center shadow-md mb-2.5"
     >
       <div className="flex items-center">
-        <input type="checkbox" name="checkbox" className="w-5 h-5" />
+        <input
+          onChange={onChange}
+          type="checkbox"
+          name="checkbox"
+          className="w-5 h-5"
+          checked={isChecked}
+        />
         <div className={`w-2.5 h-2.5 ml-5 rounded-full ${color}`} />
-        <p className="font-poppins-medium text-lg text-black ml-5">
-          Telur Ayam
+        <p
+          className={`font-poppins-medium text-lg  ml-5 ${
+            isActive ? "line-through text-grey" : "text-black"
+          }`}
+        >
+          {todo}
         </p>
         <Button
           dataCy="todo-item-edit-button"
           isWihoutStyle
-          onClick={() => console.log("edit todo")}
+          onClick={onEditTodo}
           className="ml-5"
         >
           <img src={ImgTodoItemEditButton} width={20} height={20} />
@@ -56,7 +79,7 @@ export default function TodoItem(props: TodoItemProps) {
       <Button
         dataCy="todo-item-delete-button"
         isWihoutStyle
-        onClick={() => console.log("delete todo")}
+        onClick={onDeleteTodo}
       >
         <img src={ImgTodoItemDeleteButton} width={24} height={24} />
       </Button>

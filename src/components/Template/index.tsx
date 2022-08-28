@@ -1,3 +1,4 @@
 import GlobalTemplate from "./GlobalTemplate";
+import ModalTemplate from "./ModalTemplate";
 
-export { GlobalTemplate };
+export { GlobalTemplate, ModalTemplate };

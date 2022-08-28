@@ -8,24 +8,43 @@ interface ActivityItemProps {
   index: number;
   onDelete?(): Function | void;
   nextPage?: any;
+  date: string;
 }
 
 export default function ActivityItem(props: ActivityItemProps) {
-  const { title, onDelete, index, nextPage } = props;
+  const { title, onDelete, index, nextPage, date } = props;
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const datetime = new Date(date);
+  const day = datetime.getDate();
+  const month = months[datetime.getMonth()];
+  const year = datetime.getFullYear();
   return (
     <div
       data-cy={`activity-item-${index}`}
       className="w-[235px] h-[234px] rounded-2xl bg-white p-6 shadow-lg flex flex-col"
     >
       <Button
-        isRoute
         isWihoutStyle
+        isRoute
         route={nextPage}
-        className="flex-1 hover:cursor-pointer block"
+        className="hover:cursor-pointer flex-1"
       >
         <h1
           data-cy="activity-item-site"
-          className="font-poppins-bold text-lg text-black hover:cursor-pointer"
+          className="text-start font-poppins-bold text-lg text-black hover:cursor-pointer "
         >
           {title.length > 1 ? title : "New Activity"}
         </h1>
@@ -35,7 +54,7 @@ export default function ActivityItem(props: ActivityItemProps) {
           data-cy="activity-item-date"
           className="font-poppins-regular text-base text-grey"
         >
-          5 Oktober 2022
+          {`${day} ${month} ${year}`}
         </p>
         <Button
           dataCy="activity-item-delete-button"
